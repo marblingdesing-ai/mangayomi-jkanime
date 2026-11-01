@@ -1,0 +1,7 @@
+{
+  "name": "mangayomi-jkanime",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "test": "node --test tests.cjs", "smoke": "node smoke.cjs" },
+  "devDependencies": { "cheerio": "1.1.2" }
+}

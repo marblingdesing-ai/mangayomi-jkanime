@@ -1,0 +1,24 @@
+[
+  {
+    "isFullData": false,
+    "typeSource": "single",
+    "dateFormat": "",
+    "dateFormatLocale": "",
+    "id": 1847302102,
+    "notes": "Experimental. Catálogo directo de JKAnime; reproducción y Onn TV pendientes de verificar.",
+    "lang": "es",
+    "sourceCodeLanguage": 1,
+    "appMinVerReq": "0.5.0",
+    "isManga": false,
+    "sourceCodeUrl": "https://raw.githubusercontent.com/marblingdesing-ai/mangayomi-jkanime/main/jkanime.js",
+    "name": "JKAnime",
+    "version": "0.1.0",
+    "baseUrl": "https://jkanime.net",
+    "hasCloudflare": false,
+    "additionalParams": "",
+    "apiUrl": "",
+    "iconUrl": "https://cdn.jkdesa.com/assets3/css/img/favicon.ico",
+    "itemType": 1,
+    "isNsfw": false
+  }
+]
