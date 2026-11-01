@@ -13,15 +13,16 @@ class Document extends Element {
   constructor(html) { const $ = cheerio.load(html); super($, $.root()); }
 }
 function create(get, extras = {}) {
-  const calls = [];
+  const calls = [], clientOptions = [];
   const context = vm.createContext({ console, Document, ...extras,
     MProvider: class { get source() { return {}; } },
     Client: class {
+      constructor(options) { clientOptions.push(options); }
       async get(url, headers) { calls.push(url); return get(url, headers, 'GET'); }
       async post(url, headers, body) { calls.push(url); return get(url, headers, 'POST', body); }
     }
   });
   const ext = vm.runInContext(fs.readFileSync(__dirname + '/jkanime.js', 'utf8') + '\nnew DefaultExtension()', context);
-  return { ext, calls };
+  return { ext, calls, clientOptions };
 }
 module.exports = { create };

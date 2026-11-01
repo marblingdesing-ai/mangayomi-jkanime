@@ -4,6 +4,15 @@ const fs = require('node:fs');
 const { create } = require('./test-runtime.cjs');
 const response = body => ({ statusCode: 200, body: '<html>' + body + '</html>' });
 const cover = 'https://cdn.jkdesa.com/assets/images/animes/image/show.jpg';
+test('use Dart HTTP and preserve all session cookies including Expires commas', () => {
+  const { ext, clientOptions } = create(async () => response(''));
+  assert.equal(clientOptions[0].useDartHttpClient, true);
+  ext.rememberCookies({ headers: { 'set-cookie': 'XSRF-TOKEN=csrf%3D; Expires=Sun, 01 Nov 2026 20:00:00 GMT; Path=/,jkanime-session=pointer; Path=/; HttpOnly,session-data=payload%3D; Path=/' } });
+  assert.equal(ext.siteHeaders().Cookie, 'XSRF-TOKEN=csrf%3D; jkanime-session=pointer; session-data=payload%3D');
+  ext.rememberCookies({ headers: { 'Set-Cookie': 'jkanime-session=updated; Path=/' } });
+  assert.match(ext.siteHeaders().Cookie, /jkanime-session=updated/);
+  assert.equal(ext.getHeaders().Cookie, undefined);
+});
 test('directory reads JSON, canonical links, pagination; no per-card requests', async () => {
   const data = { current_page: 1, last_page: 2, data: [{ title: 'Show', url: 'https://jkanime.net/show/', image: cover }] };
   const { ext, calls } = create(async () => response('<script>var animes = ' + JSON.stringify(data) + ';</script>'));

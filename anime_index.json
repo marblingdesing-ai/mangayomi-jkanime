@@ -12,7 +12,7 @@
     "isManga": false,
     "sourceCodeUrl": "https://raw.githubusercontent.com/marblingdesing-ai/mangayomi-jkanime/main/jkanime.js",
     "name": "JKAnime",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "baseUrl": "https://jkanime.net",
     "hasCloudflare": false,
     "additionalParams": "",

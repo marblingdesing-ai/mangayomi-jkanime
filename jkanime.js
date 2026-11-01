@@ -1,6 +1,12 @@
 // Written for Mangayomi's QuickJS MProvider API; no Node/browser dependencies.
 class DefaultExtension extends MProvider {
-  constructor() { super(); this.client = new Client(); this.cookies = {}; }
+  constructor() {
+    super();
+    // rhttp's headerMap keeps only the last repeated Set-Cookie. JKAnime needs
+    // all session cookies; Dart HTTP combines repeated headers instead.
+    this.client = new Client({ useDartHttpClient: true });
+    this.cookies = {};
+  }
   get supportsLatest() { return true; }
   getHeaders() { return { Referer: 'https://jkanime.net/' }; }
   getFilterList() { return []; }

@@ -1,4 +1,4 @@
-# JKAnime para Mangayomi — experimental 0.1.0
+# JKAnime para Mangayomi — experimental 0.1.1
 
 Extensión JavaScript `DefaultExtension extends MProvider` para agregar JKAnime
 como fuente de anime en español. Lee el sitio actual directamente: no necesita
@@ -15,6 +15,24 @@ https://raw.githubusercontent.com/marblingdesing-ai/mangayomi-jkanime/main/anime
 
 No requiere GitHub Pages. La instalación en Mangayomi/Onn TV todavía no fue
 comprobada. La ubicación de la opción de repositorios varía por versión.
+
+## Corrección del error «episodios HTTP 419» — 0.1.1
+
+Se selecciona `Client({ useDartHttpClient: true })` para las peticiones del sitio.
+El cliente rhttp de Mangayomi convierte cabeceras repetidas a un mapa y conserva
+solo el último `Set-Cookie`. JKAnime entrega varias cookies, necesarias junto
+con el token CSRF para consultar episodios. Dart HTTP conserva esas cabeceras
+combinadas y la extensión guarda cada cookie sin perder las anteriores.
+
+La prueba de escritorio ahora **no usa un gestor de cookies de curl**: solo la
+extensión conserva y envía la sesión. Simular la pérdida de cabeceras del otro
+cliente reprodujo el error HTTP 419; conservar todas permitió obtener los
+episodios publicados. Son pruebas de transporte simulado y consultas reales
+desde PC; todavía falta confirmar el arreglo ejecutándolo en la Onn TV.
+
+Si tenés 0.1.0, actualizá el catálogo y la extensión a **0.1.1**, cerrá y volvé
+a abrir la ficha. No cambia la URL del repositorio. La reproducción de video
+continúa pendiente de verificación.
 
 ## Implementado
 
@@ -45,7 +63,8 @@ en el adaptador de pruebas de escritorio para simular `Document`.
 
 ## Validación — 1 de noviembre de 2026
 
-**7 pruebas locales aprobadas**, con varios casos por prueba: directorio y
+**8 pruebas locales aprobadas**, con varios casos por prueba: cliente Dart y
+conservación de varias cookies incluso con comas en `Expires`, directorio y
 paginación, JSON con comillas y llaves, deduplicación, portadas, búsqueda vacía,
 errores HTTP y cambios de estructura, slugs con punto, paginación real de
 capítulos aunque la ficha indique 0, huecos, números decimales, sesión/CSRF,
